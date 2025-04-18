@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.b_lam.resplash.BuildConfig
 import com.b_lam.resplash.R
 import com.b_lam.resplash.databinding.ActivityMainBinding
 import com.b_lam.resplash.domain.collection.CollectionDataSource
@@ -102,7 +101,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.action_debug)?.isVisible = BuildConfig.DEBUG
+        menu?.findItem(R.id.action_debug)?.isVisible = true
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -112,10 +111,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 showBottomDrawer()
                 true
             }
+
             R.id.action_search -> {
                 startActivity(Intent(this, SearchActivity::class.java))
                 true
             }
+
             R.id.action_order -> {
                 when (binding.tabLayout.selectedTabPosition) {
                     0 -> showPhotoOrderDialog()
@@ -123,10 +124,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 }
                 true
             }
+
             R.id.action_debug -> {
                 startActivity(Intent(this, DebugActivity::class.java))
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -146,14 +149,22 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                     startActivity(this)
                 }
             }
+
             R.id.action_edit_profile -> {
                 Intent(this, EditProfileActivity::class.java).apply {
                     putExtra(EditProfileActivity.EXTRA_USERNAME, viewModel.usernameLiveData.value)
                     startActivity(this)
                 }
             }
+
             R.id.action_log_out -> viewModel.logout()
-            R.id.action_auto_wallpaper -> startActivity(Intent(this, AutoWallpaperSettingsActivity::class.java))
+            R.id.action_auto_wallpaper -> startActivity(
+                Intent(
+                    this,
+                    AutoWallpaperSettingsActivity::class.java
+                )
+            )
+
             R.id.action_upgrade -> startActivity(Intent(this, UpgradeActivity::class.java))
             R.id.action_donate -> startActivity(Intent(this, DonationActivity::class.java))
             R.id.action_settings -> startActivity(Intent(this, SettingsActivity::class.java))
@@ -216,13 +227,15 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 }
                 .setOnCancelListener {
                     callbacks.messageDismissed(
-                        FirebaseInAppMessagingDisplayCallbacks.InAppMessagingDismissType.CLICK)
+                        FirebaseInAppMessagingDisplayCallbacks.InAppMessagingDismissType.CLICK
+                    )
                 }
                 .create()
                 .show()
         } else {
             callbacks.displayErrorEncountered(
-                FirebaseInAppMessagingDisplayCallbacks.InAppMessagingErrorReason.UNSPECIFIED_RENDER_ERROR)
+                FirebaseInAppMessagingDisplayCallbacks.InAppMessagingErrorReason.UNSPECIFIED_RENDER_ERROR
+            )
         }
     }
 
